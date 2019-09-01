@@ -3,6 +3,7 @@
 
 #ifndef __linux
 # include <conio.h>
+# include <iostream>
 #else
 # include <unistd.h>
 # include <termios.h>
@@ -25,10 +26,21 @@ int getch()
 
 void	showCell(TickTackToe &game, uchar row, uchar col)
 {
+	#ifdef __linux
+
 	if (game.isCellSelected(row, col))
 		printf("\033[30;47m>%c<\033[m", game.getCell(row, col));
 	else
 		printf(" %c ", game.getCell(row, col));
+
+	#else
+
+	if (game.isCellSelected(row, col))
+		printf(">%c<", game.getCell(row, col));
+	else
+		printf(" %c ", game.getCell(row, col));
+
+	#endif
 }
 
 void	showRow(TickTackToe &game, uchar row)
@@ -46,7 +58,16 @@ void	showRow(TickTackToe &game, uchar row)
 
 void	showGame(TickTackToe &game)
 {
+	#ifndef __linux
+
+	system("cls");
+
+	#else
+
 	printf("\033[u");
+
+	#endif
+
 	printf("Current player: %c\n", game.getPlayer());
 	puts("\t/---|---|---\\");
 	showRow(game, 0);
@@ -110,7 +131,12 @@ int		main(void)
 	TickTackToe		game;
 	int				ch;
 
+	#ifdef __linux
+
 	printf("\033[s\033[?25l");
+
+	#endif
+
 	while (true)
 	{
 		showGame(game);
@@ -120,6 +146,11 @@ int		main(void)
 		if (handleKey(game, ch))
 			break ;
 	}
+	#ifdef __linux
+
 	printf("\033[?25h");
+
+	#endif
+
 	return (0);
 }
