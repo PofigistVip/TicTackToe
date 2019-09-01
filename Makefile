@@ -13,4 +13,7 @@ fclean:
 
 re: fclean all
 
-.PHONY: all fclean re
+cursor:
+	@tput cnorm
+
+.PHONY: all fclean re cursor
