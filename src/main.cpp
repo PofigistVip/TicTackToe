@@ -35,6 +35,7 @@ void	showRow(TickTackToe &game, uchar row)
 {
 	uchar	col;
 
+	putchar('\t');
 	for (col = 0; col < 3; ++col)
 	{
 		putchar('|');
@@ -47,13 +48,13 @@ void	showGame(TickTackToe &game)
 {
 	printf("\033[u");
 	printf("Current player: %c\n", game.getPlayer());
-	puts("/---|---|---\\");
+	puts("\t/---|---|---\\");
 	showRow(game, 0);
-	puts("|---+---+---|");
+	puts("\t|---+---+---|");
 	showRow(game, 1);
-	puts("|---+---+---|");
+	puts("\t|---+---+---|");
 	showRow(game, 2);
-	puts("\\---|---|---/");
+	puts("\t\\---|---|---/");
 	puts("WASD - move, Space - set mark, R - restart, Esc - exit\n");
 }
 
@@ -64,6 +65,7 @@ bool	waitAnyKey(TickTackToe &game)
 	ch = (int)getch();
 	if (ch == 27)
 		return (true);
+	printf("\r%-40c", ' ');
 	game.reset();
 	return (false);
 }
@@ -85,7 +87,7 @@ bool	handleKey(TickTackToe &game, int ch)
 			if (game.checkWinner())
 			{
 				showGame(game);
-				printf("Player '%c' won this round!\n", game.getPlayer());
+				printf("Player '%c' won this round!", game.getPlayer());
 				return (waitAnyKey(game));
 			}	
 			else
@@ -93,7 +95,7 @@ bool	handleKey(TickTackToe &game, int ch)
 			if (game.getSteps() == 9)
 			{
 				showGame(game);
-				printf("%-40s\n", "DRAW");
+				printf("%-40s", "DRAW");
 				return (waitAnyKey(game));
 			}	
 		}
@@ -112,8 +114,7 @@ int		main(void)
 	while (true)
 	{
 		showGame(game);
-		while ((ch = (int)getch()) == 0)
-			;
+		ch = (int)getch();
 		if (ch == 27)
 			break ;
 		if (handleKey(game, ch))
