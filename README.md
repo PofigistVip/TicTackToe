@@ -10,3 +10,5 @@
 
 ## Скриншоты
 
+<p align="center"><img src="img/example1.png"></p>
+<p align="center"><img src="img/example2.png"></p>
